@@ -95,7 +95,7 @@
                   <div class="card card-tale">
                     <a class="nav-link" href="#">
                     <div class="card-body">
-                      <p class="mb-4" style="color: white;">Patients Play Games</p>
+                      <p class="mb-4" style="color: white;">Patients Game History</p>
                       <p class="fs-30 mb-2" style="color: white;">{{graphDataPatient.length}}</p>
                       <p style="color: white;">30 days</p>
                     </div>
@@ -149,7 +149,7 @@
   const currentTime = new Date();
   const monthDropdown = document.getElementById("month-dropdowno")
   let index =0;
-      monthDropdown.innerHTML=`<option value="-1">Select</option>`;
+      monthDropdown.innerHTML=`<option value="-1">Months</option>`;
     if(year <currentTime.getFullYear()){
       while(index<12){
         let monthOption = document.createElement("option");
@@ -282,7 +282,7 @@
   const currentTime = new Date();
   const monthDropdownh = document.getElementById("month-dropdownh")
   let index =0;
-      monthDropdownh.innerHTML=`<option value="-1">Select</option>`;
+      monthDropdownh.innerHTML=`<option value="-1">Months</option>`;
     if(year <currentTime.getFullYear()){
       while(index<12){
         let monthOption = document.createElement("option");
@@ -348,7 +348,7 @@
   const currentTime = new Date();
   const monthDropdownr = document.getElementById("month-dropdownr")
   let index =0;
-      monthDropdownr.innerHTML=`<option value="-1">Select</option>`;
+      monthDropdownr.innerHTML=`<option value="-1">Months</option>`;
     if(year <currentTime.getFullYear()){
       while(index<12){
         let monthOption = document.createElement("option");
@@ -379,8 +379,7 @@
          {{!-- Overall graph --}}
 
       <script myvar={{graphDataPatient}} myvarl={{loudness}} myvarp={{pitch}} myvarr={{overrall}} >
-        
-          var unique = (a,t={}) => a.filter(e=>!(t[e]=e in t)); // function to find unique dates
+               var unique = (a,t={}) => a.filter(e=>!(t[e]=e in t)); // function to find unique dates
           var temp = document.currentScript.getAttribute('myvar'); 
           var temp2 = document.currentScript.getAttribute('myvarl'); 
           var temp3 = document.currentScript.getAttribute('myvarp');
@@ -396,7 +395,6 @@
          for(var i=0;i<arro.length;i++){ //counting occurance of each element
             var sum=parseFloat(arrl[i])+parseFloat(arrr[i])+parseFloat(arrp[i]); 
             datapointso.push(parseFloat(sum/3));
-            console.log("perfecy",arrp);
             }
             var curr=1;
          for(var i=1;i<arro.length;i++){ //counting occurance of each element
@@ -578,7 +576,8 @@
                 let year = date.getFullYear().toString();
                 if(year==selectYear && mpo.get(date.getTime()) ){
                   //console.log(date)
-                  data[month] += mpo.get(date.getTime());
+                  if(mpo.get(date.getTime())!== Infinity)
+                    data[month] += mpo.get(date.getTime());
                 }
               }
 
@@ -597,7 +596,7 @@
 
 
 
-              //console.log(dayn)
+              console.log(dayn)
               myCharto.config.options.scales.x.time.unit='mpnth';
               myCharto.config.options.scales.x.type="category";
               myCharto.config.data.labels=newLable; 
@@ -647,11 +646,11 @@
             myCharto.update();
        
           }
-      </script>
+        </script>
 
         {{!-- Loudness --}}
 
-      <script myvar={{datel}} myvars={{loudness}}>
+        <script myvar={{datel}} myvars={{loudness}}>
           var temp2 = document.currentScript.getAttribute('myvars'); 
           var tempXl=document.currentScript.getAttribute('myvar');
           var arrY=temp2.split(",");
@@ -673,15 +672,21 @@
               "July","August", "September", "October","November", "December"]
               
               var datal=new Array(12).fill(0);
+              const avg ={};
+              let count =0;
               for(var i=0;i<mapl.size;i++){
-                  let date=new Date(dayo[i].x);
+                  let date=new Date(dayl[i].x);
                   let month = date.getMonth();
                 let year = date.getFullYear().toString();
+                
                 if( mapl.get(date.getTime()) ){
                   //console.log(date)
+                  avg[month] = {val:mapl.get(date.getTime()), count: ++count }
                   datal[month] += mapl.get(date.getTime());
+                  
                 }
               }
+              console.log(avg)
 
               var daynl=[];
 
@@ -791,7 +796,6 @@
                 }
               }
 
-              //console.log(arrl)
 
            //   myChartl.config.options.scales.x.time.unit='day';
            //   myChartl.config.options.scales.x.type="category";
@@ -813,7 +817,7 @@
               var datal=new Array(12).fill(0);
               //console.log(dayo)
               for(var i=0;i<mapl.size;i++){
-                  let date=new Date(dayo[i].x);
+                  let date=new Date(dayl[i].x);
                   let month = date.getMonth();
                 let year = date.getFullYear().toString();
                 if(year==selectYearl && mapl.get(date.getTime()) ){
@@ -853,7 +857,7 @@
               }
               //const data = {};
               for(let i=0; i<mapl.size; i++){
-                let date=new Date(dayo[i].x);
+                let date=new Date(dayl[i].x);
                 if(mapl.get(date.getTime()))
                 yearl[date.getFullYear()] +=mapl.get(date.getTime()); 
               }
@@ -893,12 +897,12 @@
        
           }
 
-      </script>
+             </script>
 
              {{!-- pitch --}}
 
 
-      <script myvar={{datep}} myvars={{pitch}}>
+        <script myvar={{datep}} myvars={{pitch}}>
           var templ = document.currentScript.getAttribute('myvars'); 
           var tempXp=document.currentScript.getAttribute('myvar');
           var arrXp=tempXp.split(",");
@@ -920,7 +924,7 @@
               
               var datah=new Array(12).fill(0);
               for(var i=0;i<maph.size;i++){
-                  let date=new Date(dayo[i].x);
+                  let date=new Date(dayp[i].x);
                   let month = date.getMonth();
                 let year = date.getFullYear().toString();
                 if( maph.get(date.getTime()) ){
@@ -1029,6 +1033,9 @@
                 //console.log(time)
                 if(maph.has(time) && maph.get(time)){
                   //console.log(maph.get(time))
+                  if(maph.get(time) === Infinity)
+                    arrh.push({x:time, y:0})
+                    else
                   arrh.push({x:time, y:maph.get(time) })
                 }
                 else{
@@ -1037,6 +1044,7 @@
               }
 
               console.log(arrh)
+              console.log(maph)
 
               myCharth.config.options.scales.x.time.unit='day';
               myCharth.config.options.scales.x.type="category";
@@ -1057,7 +1065,7 @@
               var datah=new Array(12).fill(0);
               //console.log(dayo)
               for(var i=0;i<maph.size;i++){
-                  let date=new Date(dayo[i].x);
+                  let date=new Date(dayp[i].x);
                   let month = date.getMonth();
                 let year = date.getFullYear().toString();
                 if(year==selectYearh && maph.get(date.getTime()) ){
@@ -1089,7 +1097,7 @@
                 yearh[year] =0
               }
               for(let i=0; i<maph.size; i++){
-                let date=new Date(dayo[i].x);
+                let date=new Date(dayp[i].x);
                 if(maph.get(date.getTime()))
                 yearh[date.getFullYear()] +=maph.get(date.getTime()); 
               }
@@ -1129,11 +1137,11 @@
        
           }
 
-      </script>
+        </script>
 
         {{!-- Recognition --}}
 
-      <script myvar={{dateo}} myvars={{overrall}}>
+        <script myvar={{dateo}} myvars={{overrall}}>
           var tempr = document.currentScript.getAttribute('myvars'); 
           var temprr=document.currentScript.getAttribute('myvar');
           var arrYr=tempr.split(",");
@@ -1145,21 +1153,22 @@
             }
 
             var mapr = new Map();
-
+            console.log("mapr")
+            
           var dayr=[];
-
-          
           for(var i=0;i<arrr.length;i++){
             dayr.push({x:new Date(arrr[i]).setHours(0,0,0,0),y:datapointsr[i]});
              mapr.set(new Date(arrr[i]).setHours(0,0,0,0), datapointsr[i]);
           }
+
+          console.log(mapr)
 
           var monthNamer = ["January", "February", "March", "April", "May", "June", 
               "July","August", "September", "October","November", "December"]
               
               var datar=new Array(12).fill(0);
               for(var i=0;i<mapr.size;i++){
-                  let date=new Date(dayo[i].x);
+                  let date=new Date(dayr[i].x);
                   let month = date.getMonth();
                 let year = date.getFullYear().toString();
                 if( mapr.get(date.getTime()) ){
@@ -1184,7 +1193,9 @@
               }
 
           console.log(daynr)
-      
+
+
+
           var data = {
             labels: newLabler,
             datasets: [{
@@ -1237,11 +1248,10 @@
               var startdate=new Date(parseInt(payload.year), parseInt(payload.month), 1);
               var enddate=new Date(parseInt(payload.year), parseInt(payload.month)+1, 0);
               var temp = startdate;
-
-               const date = new Date();
               var labelr = []
 
-                if(startdate.getFullYear()=== date.getFullYear() && startdate.getMonth()=== date.getMonth()){
+              const date = new Date();
+              if(startdate.getFullYear()=== date.getFullYear() && startdate.getMonth()=== date.getMonth()){
                 enddate = date;
               }
 
@@ -1275,6 +1285,7 @@
                 }
               }
 
+              console.log(dayrr)
               console.log(labelr)
 
 
@@ -1291,9 +1302,9 @@
               var datar=new Array(12).fill(0);
               //console.log(dayo)
               for(var i=0;i<mapr.size;i++){
-                  let date=new Date(dayo[i].x);
+                  let date=new Date(dayr[i].x);
                   let month = date.getMonth();
-                let year = date.getFullYear().toString();
+                  let year = date.getFullYear().toString();
                 if(year==selectYearr && mapr.get(date.getTime()) ){
                   //console.log(date)
                   datar[month] += mapr.get(date.getTime());
@@ -1301,10 +1312,11 @@
               }
 
               var daynr=[];
-              
-               const newLabler = [];
+
+
+              const newLabler = [];
               for(let i=0;i<12;i++){
-                  //console.log(new Date().getFullYear(), selectYear.value)
+                  console.log(new Date().getFullYear(), selectYearr)
                 if(new Date().getFullYear() === parseInt(selectYearr) && new Date().getMonth()< i){
                   console.log(monthNamer[i])
                 }
@@ -1314,11 +1326,18 @@
                 }
               }
             console.log(daynr)
+            console.log(newLabler)
 
-             myChartr.config.options.scales.x.time.unit=period;
+
+            myChartr.config.options.scales.x.time.unit='month';
               myChartr.config.options.scales.x.type="category";
-              myChartr.config.data.labels=newLabler; 
+              myChartr.config.data.labels= newLabler
               myChartr.config.data.datasets[0].data=daynr;
+
+            // myChartr.config.options.scales.x.time.unit=period;
+            //  myChartr.config.options.scales.x.type="category";
+            //  //myChartr.config.data.labels=monthNamer; 
+            //  myChartr.config.data.datasets[0].data=daynr;
 
 
 
@@ -1342,6 +1361,7 @@
               }
 
               myChartr.config.options.scales.x.time.unit=period;
+              myChartr.config.options.scales.x.type="time";
               myChartr.config.data.datasets[0].data=daynr;
               //myChartr.config.options.scales.x.time.unit=period;
               //myChartr.config.data.datasets[0].data=dayr;
@@ -1371,7 +1391,7 @@
             myChartr.update();
        
           }
-      </script>
+        </script>
 
 
         
@@ -1403,13 +1423,13 @@
                                              }
                                          </script>
 
-                                           <div class="popup" onclick="myFunction()">Show all details
+                                           <div class="popup" onclick="myFunction()">Patients History
                                                   
                                                   
                                                 <div class="popuptext" id="myPopup" class="row">
                     <div class="col-md-12"  style="max-height: 500px;">
                         <div class="card-box">
-                            {{!-- <h3 class="card-title">Progress Details</h3> --}}
+                            {{!-- <h3 class="card-title">History Details</h3> --}}
                             
                             <div class="experience-box">
                                 <ul class="experience-list">
